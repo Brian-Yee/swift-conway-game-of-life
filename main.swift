@@ -1,19 +1,43 @@
 /*
 Conways Game of life simulator
-- write everything as one dimensional struct ro array
 */
 
-func defineNeighbours(grid: [[Int]], height: Int, width: Int) -> [[[(Int, Int)]]] {
+func defineNeighbours(num_rows: Int, num_cols: Int) -> [[[(Int, Int)]]] {
+    /*
+     Define neighbours at for every cell on a grid.
+
+     Neighbourhood is visualized below
+
+     . . . . . o o o . .
+     . . . . . o x o . .
+     p p . . . o o o . p
+     r p . . . . . . . p
+     p p . . . . . . . p
+
+     where `o` correponds to the neighbours of `x` and `p` correponds to the neighbours
+     of`r. The case of cell `r` is given to visualize the effect of Periodic Boundary
+     conditions.
+
+     Arguments:
+         num_rows
+             Number of rows to calculate neighbours for.
+         num_cols
+             Number of columns to calculate neighbours for.
+
+     Returns:
+        neighbours
+             Adjacent neighbours of every cell arranged in a 2d array.
+     */
     var neighbours = [[[(Int, Int)]]]()
 
-    for i in 0...height-1 {
-        let east = (i - 1 + width) % width
-        let west = (i + 1) % width
+    for i in 0...num_rows {
+        let east = (i - 1 + num_rows) % num_rows
+        let west = (i + 1) % num_rows
 
         var row_neighbours = [[(Int, Int)]]()
-        for j in 0...width-1 {
-            let north = (j - 1 + height) % height
-            let south = (j + 1) % height
+        for j in 0...num_cols {
+            let north = (j - 1 + num_cols) % num_cols
+            let south = (j + 1) % num_cols
 
             let cell_neighbours = [
                 (east, north),
@@ -34,12 +58,28 @@ func defineNeighbours(grid: [[Int]], height: Int, width: Int) -> [[[(Int, Int)]]
 }
 
 func flipCoords(grid: inout [[Int]], coords: [(Int, Int)]) {
+    /*
+     Flips specific boolean integers on a grid.
+
+     Arguments:
+         grid
+             Array of boolean integer values.
+         coords
+             Coordinates of array elements to be flipped.
+     */
     for (i, j) in coords {
         grid[i][j] = 1 - grid[i][j]
     }
 }
 
 func printGrid(grid: [[Int]]){
+    /*
+     Pretty print grid to stdout.
+
+     Arguments:
+         grid
+             Array of boolean integer values.
+     */
     for row in grid {
         print(row)
     }
@@ -47,10 +87,27 @@ func printGrid(grid: [[Int]]){
 }
 
 func calcUpdates(grid: [[Int]], neighbours: [[[(Int, Int)]]]) -> [(Int, Int)]{
-    var updates = [(Int, Int)]()
+    /*
+     Calculates cells that need to be updated according to Conway's Game of Life rules.
 
-    for i in 0...grid.count-1 {
-        for j in 0...grid[i].count-1 {
+
+     Arguments:
+         grid
+             Array of boolean integer values.
+         neighbours
+             Neighbours according to Conway's Game of Life.
+
+     Returns:
+         updates
+             Cells which according to Conways Game of Life rules would be updated at the
+             next iteration.
+     */
+    var updates = [(Int, Int)]()
+    let num_rows = grid.count-1
+    let num_cols = num_rows
+
+    for i in 0...num_rows {
+        for j in 0...num_cols {
             var alive_cells = 0;
             for (p, q) in neighbours[i][j] {
                 alive_cells += grid[p][q]
@@ -67,14 +124,26 @@ func calcUpdates(grid: [[Int]], neighbours: [[[(Int, Int)]]]) -> [(Int, Int)]{
     return updates
 }
 
-func conway (height: Int, width: Int) {
-    var grid = Array(repeating:Array(repeating:0, count:width), count:height)
-    let neighbours = defineNeighbours(grid:grid, height:height, width:width)
+func conway(num_rows: Int, num_cols: Int) {
+    /*
+     Simulates one game of Conway's Game of Life
 
-    let coords = [(0, 1), (1, 2), (2, 0), (2, 1), (2, 2)]
-    flipCoords(grid:&grid, coords:coords)
+     Arguments:
+         num_rows
+             Number of equal sized rows to play game with.
+         num_cols:
+             Number of equal sized columns to play game with.
+     */
 
-    for _ in 0...100 {
+    // TODO: add an assert that heigh and width must be greater than or equal to 1
+
+    var grid = Array(repeating:Array(repeating:0, count:num_cols), count:num_rows)
+    let neighbours = defineNeighbours(num_rows: num_rows, num_cols: num_cols)
+
+    let initial_coords = [(0, 1), (1, 2), (2, 0), (2, 1), (2, 2)]
+    flipCoords(grid:&grid, coords:initial_coords)
+
+    for _ in 0...10 {
         printGrid(grid:grid)
         let updates = calcUpdates(grid:grid, neighbours:neighbours)
         flipCoords(grid:&grid, coords:updates)
@@ -83,4 +152,4 @@ func conway (height: Int, width: Int) {
 
 }
 
-conway(height: 10, width: 10)
+conway(num_rows: 10, num_cols: 10)
