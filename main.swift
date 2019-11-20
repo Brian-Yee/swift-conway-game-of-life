@@ -2,6 +2,8 @@
 Conways Game of life simulator
 */
 
+import Foundation
+
 func defineNeighbours(num_rows: Int, num_cols: Int) -> [[[(Int, Int)]]] {
     /*
      Define neighbours at for every cell on a grid.
@@ -49,6 +51,7 @@ func defineNeighbours(num_rows: Int, num_cols: Int) -> [[[(Int, Int)]]] {
                 (west, j),
                 (west, south),
             ]
+
             row_neighbours.append(cell_neighbours)
         }
         neighbours.append(row_neighbours)
@@ -81,9 +84,15 @@ func printGrid(grid: [[Int]]){
              Array of boolean integer values.
      */
     for row in grid {
-        print(row)
+        for col in row {
+            if col == 0 {
+                print("⚫", terminator:" ")
+            } else if col == 1 {
+                print("⚪", terminator:" ")
+            }
+        }
+        print()
     }
-    print()
 }
 
 func calcUpdates(grid: [[Int]], neighbours: [[[(Int, Int)]]]) -> [(Int, Int)]{
@@ -129,7 +138,6 @@ func conway(num_rows: Int, num_cols: Int) {
      Simulates one game of Conway's Game of Life
 
      Arguments:
-         num_rows
              Number of equal sized rows to play game with.
          num_cols:
              Number of equal sized columns to play game with.
@@ -137,11 +145,50 @@ func conway(num_rows: Int, num_cols: Int) {
     var grid = Array(repeating:Array(repeating:0, count:num_cols), count:num_rows)
     let neighbours = defineNeighbours(num_rows: num_rows, num_cols: num_cols)
 
-    let initial_coords = [(0, 1), (1, 2), (2, 0), (2, 1), (2, 2)]
+    let initial_coords = [
+      (6, 1), (6, 2), (7, 1), (7, 2),
+      (6, 11), (7, 11), (8, 11),
+      (5, 12), (9, 12),
+      (4, 13), (10, 13), (4, 14), (10, 14),
+      (7, 15),
+      (5, 16), (9, 16),
+      (6, 17), (7, 17), (8, 17),
+      (7, 18),
+      (6, 21), (6, 22), (5, 21), (5, 22), (4, 21), (4, 22),
+      (3, 23), (7, 23),
+      (3, 25), (7, 25), (2, 25), (8, 25),
+      (4, 35), (4, 36), (5, 35), (5, 36)
+
+      // glider
+      // (0, 1), (1, 2), (2, 0), (2, 1), (2, 2)
+      //
+      // pulsar
+      // (5, 3), (6, 3), (7, 3),
+      // (3, 5), (3, 6), (3, 7),
+      // (8, 5), (8, 6), (8, 7),
+      // (5, 8), (6, 8), (7, 8),
+      // (5, 10), (6, 10), (7, 10),
+      // (5, 15), (6, 15), (7, 15),
+      // (3, 11), (3, 12), (3, 13),
+      // (11, 15), (12, 15), (13, 15),
+      // (11, 8), (12, 8), (13, 8),
+      // (11, 10), (12, 10), (13, 10),
+      // (15, 11), (15, 12), (15, 13),
+      // (8, 11), (8, 12), (8, 13),
+      // (10, 11), (10, 12), (10, 13),
+      // (10, 5), (10, 6), (10, 7),
+      // (15, 5), (15, 6), (15, 7),
+      // (11, 3), (12, 3), (13, 3),
+      //
+      // random
+      // (3, 7), (3, 8), (4, 7), (4, 8),
+      // (3, 10), (3, 11), (4, 10), (4, 11), (5, 12), (5, 13), (6, 12), (4, 13),
+    ]
     flipCoords(grid:&grid, coords:initial_coords)
 
     for _ in 0...100 {
         printGrid(grid:grid)
+        Thread.sleep(forTimeInterval: 0.2)
         let updates = calcUpdates(grid:grid, neighbours:neighbours)
         flipCoords(grid:&grid, coords:updates)
     }
@@ -151,8 +198,7 @@ func main(num_rows: Int, num_cols: Int){
     /*
      Main function responsible for execution.
      */
-
     conway(num_rows: num_rows, num_cols: num_cols)
 }
 
-main(num_rows: 10, num_cols: 20)
+main(num_rows: 25, num_cols: 40)
