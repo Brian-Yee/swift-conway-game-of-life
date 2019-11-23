@@ -203,7 +203,7 @@ Round 1... Begin!
 Now that we have define the rules let's play around with our system and see what phenomena emerge.
 
 <p style="text-align:center">
-    <img alt="Demo of Conway's game of life" src="../images/game-of-life/demo.gif">
+    <img alt="Demo of Conway's game of life" src="images/demo.gif">
 </p>
 
 God that never gets boring to me. There's something so mesmerizing about the expansion and
@@ -211,7 +211,7 @@ contraction of certain shapes. I find it totally amazing to see how sometimes wh
 simulation is going to fizzle out. Is this always the case? No, I'm simply saying
 
 <p style="text-align:center">
-    <img alt="Life uhh finds a way." src="../images/game-of-life/goldblum.gif">
+    <img alt="Life uhh finds a way." src="images/goldblum.gif">
 </p>
 
 Of course I'm not the only one who is entranced by this game. There is a fairly hardcore community
@@ -229,7 +229,7 @@ Blinkers are shapes which follow a series of transformations that indefinitely r
 without translation on the board. An example of a blinker is the pulsar given below
 
 <p style="text-align:center">
-    <img alt="Pulsar configuration" src="../images/game-of-life/pulsar.gif">
+    <img alt="Pulsar configuration" src="images/pulsar.gif">
 </p>
 
 Spaceships
@@ -239,7 +239,7 @@ Spaceships are similar like blinkers differing only in the fact that after their
 completes a cycle the shape will have translated across the board.
 
 <p style="text-align:center">
-    <img alt="Glider" src="../images/game-of-life/glider.gif">
+    <img alt="Glider" src="images/glider.gif">
 </p>
 
 Infinite Generators
@@ -250,7 +250,7 @@ reward if the problem could be solve by 1970. Gosepl et al claimed the prize by 
 which emits gliders every 30 iterations except for the first which occurs in 15 iterations.
 
 <p style="text-align:center">
-    <img alt="Glider" src="../images/game-of-life/gosper-glider.gif">
+    <img alt="Glider" src="images/gosper-glider.gif">
 </p>
 
 Summary
